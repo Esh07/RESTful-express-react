@@ -10,4 +10,6 @@ const app = express()
 app.use(bodyParser.json())
 app.use(compression())
 
+// A route declaration section
+
 export { app };
