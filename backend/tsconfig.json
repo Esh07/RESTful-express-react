@@ -6,11 +6,18 @@
     "esModuleInterop": true,                  // Enables emit interoperability between CommonJS and ES Modules
     "skipLibCheck": true,                     // Skip type checking of all declaration files (*.d.ts)
     "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
-    "types": ["node"]                         // Include type definitions for Node.js
+    "types": ["node"],                         // Include type definitions for Node.js
+    "baseUrl": "./",                          // Base directory to resolve non-absolute module names
+    "paths": {
+      "@app/*": ["./src/app/*"],                     // Map @app/* imports to /src/app/*
+      "@config/*": ["./src/config/*"],                 // Map @config/* imports to /src/config/*
+      "@lib/*": ["./src/lib/*"],                       // Map @lib/* imports to /src/lib/*
+      "@root/*": ["./*"]                         // Map @root/* imports to /src/
+    }
   },
   "include": [
     "src/**/*",
-    "app/**/*",
+    "src/app/**/*",
     "server.ts"                            // Adjust the path to your source files
   ]
 }
