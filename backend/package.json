@@ -2,11 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "A RESTful application for Cronwell",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "start": "ts-node server.ts",
+    "dev": "nodemon --exec ts-node server.ts"
   },
   "author": "Eshvar Prakash",
   "license": "MIT",
