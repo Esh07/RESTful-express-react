@@ -1,9 +1,16 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
-    "outDir": "dist",
-    "strict": true,
-    "lib": ["esnext"],
-    "esModuleInterop": true
-  }
+    "target": "ES6",                          // or "ES2015" or later
+    "module": "commonjs",                     // Node.js uses CommonJS module system
+    "strict": true,                           // Enable all strict type-checking options
+    "esModuleInterop": true,                  // Enables emit interoperability between CommonJS and ES Modules
+    "skipLibCheck": true,                     // Skip type checking of all declaration files (*.d.ts)
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
+    "types": ["node"]                         // Include type definitions for Node.js
+  },
+  "include": [
+    "src/**/*",
+    "app/**/*",
+    "server.ts"                            // Adjust the path to your source files
+  ]
 }
