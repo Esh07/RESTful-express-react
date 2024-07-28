@@ -4,8 +4,9 @@ import { z, ZodObject, ZodRawShape, ZodSchema, ZodString } from "zod";
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 
+const { generateTokens } = require('../../lib/jwt');
 
-const { generateTokens } = require('./auth.services');
+const { comparePasswords } = require('../../utils/authUtils');
 
 const {
   addRefreshTokenToWhitelist,
