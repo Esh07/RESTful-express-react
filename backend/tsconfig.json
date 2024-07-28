@@ -6,22 +6,26 @@
     "esModuleInterop": true,                  // Enables emit interoperability between CommonJS and ES Modules
     "skipLibCheck": true,                     // Skip type checking of all declaration files (*.d.ts)
     "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
-    "types": ["node"],                         // Include type definitions for Node.js
-    "baseUrl": "./src",                          // Base directory to resolve non-absolute module names
+    "types": ["node", "jest"],                // Include type definitions for Node.js and Jest
+    "baseUrl": "./src",                       // Base directory to resolve non-absolute module names
     "paths": {
-      "@app/*": ["./app/*"],                     // Map @app/* imports to app/*
-      "@config/*": ["./config/*"],                 // Map @config/* imports to config/*
-      "@lib/*": ["./lib/*"],                       // Map @lib/* imports to lib/*
-      "@auth/*": ["./api/auth/*"],                     // Map @auth/* imports to /src/auth/*
-      "@root/*": ["./*"]                         // Map @root/* imports to /src/
-    }
+      "@app/*": ["./app/*"],                  // Map @app/* imports to app/*
+      "@config/*": ["./config/*"],            // Map @config/* imports to config/*
+      "@lib/*": ["./lib/*"],                  // Map @lib/* imports to lib/*
+      "@auth/*": ["./api/auth/*"],            // Map @auth/* imports to /src/auth/*
+      "@root/*": ["./*"]                      // Map @root/* imports to /src/
+    },
+    "outDir": "./dist"                        // Redirect output structure to the directory
   },
   "include": [
-    "src/**/*",
-    "src/app/**/*",
-    "src/config/**/*",
-    "src/lib/**/*",
-    "src/api/auth/**/*",
-    "./server.ts"                            // Adjust the path to your source files
-  ]
+    "src/**/*.ts",
+    "src/app/**/*.ts",
+    "src/config/**/*.ts",
+    "src/lib/**/*.ts",
+    "src/api/auth/**/*.ts",
+    "./server.ts",
+    "__tests__/**/*.ts",
+    "./singleton.ts"
+  ],
+  "exclude": ["node_modules"]
 }

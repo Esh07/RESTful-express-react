@@ -114,11 +114,10 @@ router.post('/register', validateRequest(registerSchemaBase), asyncHandler(async
     const { email, password, name} = req.body;
 
     const existingUser = await findUserByEmail(email);
-    console.log(req.body);
+    // console.log(req.body);
 
     if (existingUser) {
-      res.status(400);
-      throw new Error('User with this email already exists.');
+      throw res.status(400).json({message: 'User with this email already exists.'});
     }
 
     const user = await createUserByEmailAndPassword({ email, password, name });
@@ -173,10 +172,10 @@ router.post('/login', validateRequest(loginSchema), asyncHandler(async (req: Req
   }}));
 
 // Generic error handler Middleware
-router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.error(err);
-    res.status(500).send('An error occurred. Please try again later.');
-  }
-);
+// router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+//     console.error(err);
+//     res.status(500).send('An error occurred. Please try again later.');
+//   }
+// );
 
 module.exports = { auth: router };

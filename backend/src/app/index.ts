@@ -16,7 +16,7 @@ app.use(compression());
 
 // A route declaration section
 const { auth } = require('../api/auth/auth.routes');
-console.log(auth)
+// console.log(auth)
 app.use('/auth', auth);
 
 const { user } = require('../api/users/users.routes');
@@ -24,10 +24,13 @@ const { user } = require('../api/users/users.routes');
 // app.use('/user', user);
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
-    console.log('Hello World!')
+    res.status(200).json({ message: 'Hello World!' });
+
+    // console.log('Hello World!')
 }
 );
+
+
 
 
 export { app };
