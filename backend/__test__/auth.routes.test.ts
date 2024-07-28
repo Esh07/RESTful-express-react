@@ -17,6 +17,11 @@ const userDataFields = {
     confirmPassword: "password",
 };
 
+const loginData = {
+    email: "test1@example.com",
+    password: "password",
+};
+
 
 
 // initialize the prisma ./test.db database and migrate the schema (sqlite)
@@ -89,6 +94,22 @@ describe("User routes", () => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual({ message: "User with this email already exists." });
     });
+
+    it("should successfully POST /auth/login", async () => {
+      console.log(loginData);
+        const response = await request(app).post("/auth/login").send(loginData);
+
+        console.log(response.body);
+        expect(response.status).toBe(200);
+    } );
+
+    it("should fail POST /auth/login with wrong password", async () => {
+      const email = userDataFields.email;
+        const response = await request(app).post("/auth/login").send({ email, password: "wrongpassword" });
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual({ message: "Invalid email or password." });
+    }
+    );
 });
 
 
