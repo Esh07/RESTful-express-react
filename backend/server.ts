@@ -1,10 +1,10 @@
 import { app } from './src/app/index';
 import seedData from './src/lib/seed';
-import  db  from './src/lib/db';
+import db from './src/lib/db';
 
 const PORT = process.env.PORT || 3000;
 
-async function startServer(){
+async function startServer() {
     try {
         await seedData(); // Seed the database with some data
         console.log('Database connected');

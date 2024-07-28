@@ -1,6 +1,6 @@
-import jwt, {JwtPayload} from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express';
-import { Payload as PayLoad} from './api/users/users.routes';
+import { Payload as PayLoad } from './api/users/users.routes';
 import cookie from 'cookie';
 
 interface Payload extends JwtPayload {
@@ -10,7 +10,7 @@ interface Payload extends JwtPayload {
 
 interface CustomRequest extends Request {
     payload?: Payload;
-    isAuthenticated?: boolean; 
+    isAuthenticated?: boolean;
 }
 
 function notFound(req: Request, res: Response, next: NextFunction) {
@@ -29,8 +29,8 @@ function errorHandler(err: Error, req: Request, res: Response, next: NextFunctio
     });
 }
 
-function isAuthenticated(req: CustomRequest, res: Response, next: NextFunction) : boolean {
-    
+function isAuthenticated(req: CustomRequest, res: Response, next: NextFunction): boolean {
+
     // const { authorization } = req.headers;
 
     const token = cookie.parse(req.headers.cookie || '').token;
@@ -41,7 +41,7 @@ function isAuthenticated(req: CustomRequest, res: Response, next: NextFunction) 
         req.isAuthenticated = false;
         // next();
         return false;
-    } 
+    }
 
     // if (!authorization) {
     //     console.log(token);

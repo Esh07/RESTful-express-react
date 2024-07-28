@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { z, ZodObject, ZodRawShape, ZodSchema, ZodString } from "zod";
 const jwt = require('jsonwebtoken');
 import cookie from 'cookie';
-import { isAuthenticated, checkAlreadyAuthenticated } from '../../middlewares';
+import {isAuthenticated, checkAlreadyAuthenticated} from '../../middlewares';
 
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
@@ -31,11 +31,11 @@ const {
 } = require('../users/user.services');
 
 interface RegisterRequestBody {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+    name: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }
 
 
 const registerSchemaBase = z.object({
@@ -163,7 +163,6 @@ const loginSchema = z.object({
  * @throws A 500 response if an error occurs during the login process.
  */
 router.post('/login', validateRequest(loginSchema), asyncHandler(async (req: Request, res: Response) => {
-  console.log(req.body);
   try{
     const validateData = loginSchema.parse(req.body);
     console.log(validateData);

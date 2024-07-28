@@ -1,11 +1,11 @@
-import db  from '../../lib/db';
-import {hashToken} from '../../lib/hashToken';
+import db from '../../lib/db';
+import { hashToken } from '../../lib/hashToken';
 
 interface AddRefreshTokenToWhitelist {
-    jti: string;
-    refreshToken: string;
-    userId: string;
-    }
+  jti: string;
+  refreshToken: string;
+  userId: string;
+}
 
 // used when we create a refresh token.
 function addRefreshTokenToWhitelist({ jti, refreshToken, userId }: AddRefreshTokenToWhitelist) {

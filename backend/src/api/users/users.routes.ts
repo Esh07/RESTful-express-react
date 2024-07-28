@@ -14,7 +14,7 @@ declare module 'express-serve-static-core' {
   }
 }
 
-router.get('/profile', isAuthenticated, async (req : Request, res : Response, next : NextFunction) => {
+router.get('/profile', isAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId } = req.payload as { userId: string };
     const user = await findUserById(userId);
