@@ -1,5 +1,5 @@
 import db  from '../../lib/db';
-const { hashToken } = require('../../lib/hashToken');
+import {hashToken} from '../../lib/hashToken';
 
 interface AddRefreshTokenToWhitelist {
     jti: string;
