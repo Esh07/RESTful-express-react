@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { z, ZodObject, ZodRawShape, ZodSchema, ZodString } from "zod";
+const jwt = require('jsonwebtoken');
+import cookie from 'cookie';
+import {isAuthenticated, checkAlreadyAuthenticated} from '../../middlewares';
 
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
@@ -56,6 +59,12 @@ const registerSchema: ZodSchema = registerSchemaBase.superRefine((data, ctx) => 
  * @returns A middleware function that performs the validation.
  */
   const validateRequest = (schema: z.ZodObject<any> ) => (req: Request, res: Response, next: NextFunction) => {
+    
+    if (isAuthenticated(req, res, next)) {
+      console.log('User is already authenticated');
+      return res.status(409).json({ message: 'Already authenticated' });
+    }
+
     try {
         const parsedData = schema.parse(req.body);
 
@@ -69,8 +78,7 @@ const registerSchema: ZodSchema = registerSchemaBase.superRefine((data, ctx) => 
                     path: ['confirmPassword'],
                 });
             }
-        }
-        ).parse(parsedData);
+        }).parse(parsedData);
       }
 
         // attach the parsed data to the request object

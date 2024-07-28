@@ -110,15 +110,40 @@ describe("Login User routes", () => {
     );
 
     it("should successfully POST /auth/login", async () => {
-      console.log(loginData);
+
         const response = await request(app).post("/auth/login").send(loginData);
-        console.log(response.headers);
+
         // fetch the token from httpOnly cookie using cookie-parser
         const cookies = cookie.parse(response.headers["set-cookie"][0]);
         token = cookies.token;
-        console.log(token);
+
         expect(response.status).toBe(200);
         expect(response.body).toEqual({ message: "Logged in successfully." });
     } );
 
+    //try to register after logging in to see if it fails
+    it("should fail POST /auth/register after logging in", async () => {
+
+      // login to get the token 
+      const loginResponse = await request(app).post("/auth/login").send(loginData);
+      const cookies = cookie.parse(loginResponse.headers["set-cookie"][0]);
+      token = cookies.token;
+
+      // Attempt to register with the new user data
+      const response = await request(app)
+          .post("/auth/register")
+          .set("Cookie", `token=${token}`)
+          .send({
+              name: "John Doe",
+              email: "teheheh@gmail.com",
+              password: "password",
+              confirmPassword: "password",
+          });
+      // console.log(response.body);
+      expect(response.status).toBe(409);
+      expect(response.body).toEqual({ message: "Already authenticated" });
+    }
+    );
+
 });
+
