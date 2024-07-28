@@ -57,6 +57,7 @@ const registerSchema: ZodSchema = registerSchemaBase.superRefine((data, ctx) => 
     try {
         const parsedData = schema.parse(req.body);
 
+      if (parsedData.confirmPassword) {
         // apply the validation on password and confirmPassword
         schema.superRefine((data, ctx) => {
             if (data.password !== data.confirmPassword) {
@@ -68,6 +69,7 @@ const registerSchema: ZodSchema = registerSchemaBase.superRefine((data, ctx) => 
             }
         }
         ).parse(parsedData);
+      }
 
         // attach the parsed data to the request object
         req.body = parsedData;
