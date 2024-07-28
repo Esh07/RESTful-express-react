@@ -12,7 +12,7 @@ interface CustomRequest extends Request {
 }
 
 function notFound(req: Request, res: Response, next: NextFunction) {
-    res.status(404);
+    res.status(404).json({ message: '🔍 - Not Found - 🕵️' });
     const error = new Error(`🔍 - Not Found - ${req.originalUrl}`);
     next(error);
 }
@@ -21,8 +21,7 @@ function notFound(req: Request, res: Response, next: NextFunction) {
 function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
     /* eslint-enable no-unused-vars */
     const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
-    res.status(statusCode);
-    res.json({
+    res.status(statusCode).json({
         message: err.message,
         stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack
     });
@@ -49,7 +48,7 @@ function isAuthenticated(req: CustomRequest, res: Response, next: NextFunction) 
         next();
 
     } catch (err) {
-        res.status(401);
+        res.status(401).json({ message: '🚫 Un-Authorized 🚫' });
         if (err instanceof jwt.TokenExpiredError) {
             res.status(401).json({ message: 'Token has  been expired' });
         }
