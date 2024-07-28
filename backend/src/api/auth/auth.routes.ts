@@ -206,10 +206,15 @@ router.post('/login', validateRequest(loginSchema), asyncHandler(async (req: Req
   * @throws A 500 response if an error occurs during the logout process.
   * */
 
-router.post('/logout', async (req: Request, res: Response) => {
-    const { userId } = req.body;
+router.post('/logout', isAuthenticated, async (req: Request, res: Response) => {
+  if (req.payload && req.payload.userId) {
+    const userId = req.payload.userId;
     await revokeTokens(userId);
+    res.clearCookie('token');
     res.status(200).json({ message: 'Logged out successfully.' });
+  } else {
+    res.status(400).json({ message: 'Invalid request.' });
+  }
   });
   
 
