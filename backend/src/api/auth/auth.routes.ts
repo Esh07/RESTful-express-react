@@ -111,16 +111,17 @@ const registerSchema: ZodSchema = registerSchemaBase.superRefine((data, ctx) => 
      */
 router.post('/register', validateRequest(registerSchemaBase), asyncHandler(async(req:Request<{}, {}, RegisterRequestBody>, res: Response) => {
 
-    const { email, password} = req.body;
+    const { email, password, name} = req.body;
 
     const existingUser = await findUserByEmail(email);
+    console.log(req.body);
 
     if (existingUser) {
       res.status(400);
       throw new Error('User with this email already exists.');
     }
 
-    const user = await createUserByEmailAndPassword({ email, password });
+    const user = await createUserByEmailAndPassword({ email, password, name });
     const jti = uuidv4();
     const { accessToken, refreshToken } = generateTokens(user, jti);
     await addRefreshTokenToWhitelist({ jti, refreshToken, userId: user.id });
