@@ -172,3 +172,19 @@ describe("Logout_routes", () => {
 
 
 
+describe("Other routes", () => {
+  //   // Test "/user" GET route
+  it("GET /profile should return logged in user", async () => {
+    // login to get the token
+    const loginResponse = await request(app).post("/auth/login").send(loginData);
+    const cookies = cookie.parse(loginResponse.headers["set-cookie"][0]);
+    token = cookies.token;
+
+    const response = await request(app).get("/user/profile").set("Cookie", `token=${token}`);
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(expect.objectContaining({ 
+      email: loginData.email,
+      name: userDataFields.name,
+     }));
+  });
+});

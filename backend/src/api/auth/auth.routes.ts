@@ -28,7 +28,7 @@ const {
   findUserByEmail,
   createUserByEmailAndPassword,
   deleteRefreshToken
-} = require('../users/user.services');
+} = require('../users/users.services');
 
 interface RegisterRequestBody {
     name: string;

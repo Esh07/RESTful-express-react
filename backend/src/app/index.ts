@@ -22,7 +22,7 @@ app.use('/auth', auth);
 
 const { user } = require('../api/users/users.routes');
 // console.log(user)
-// app.use('/user', user);
+app.use('/user', user);
 
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Hello World!' });

@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 const { isAuthenticated } = require('../../middlewares');
-const { findUserById } = require('./user.services');
+const { findUserById } = require('./users.services');
 
 const router = express.Router();
 
@@ -16,20 +16,23 @@ declare module 'express-serve-static-core' {
 
 router.get('/profile', isAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { userId } = req.payload as { userId: string };
+    console.log('Profile route');
+    console.log('req.payload', req.payload);
+    const userId = req.payload?.userId;
+
     const user = await findUserById(userId);
+    console.log('user', user);
     if (!user) {
-      return res.sendStatus(404);
+      return res.sendStatus(404).json({ message: 'User not found' });
     }
 
-    const { password, ...userWithoutPassword } = user;
+    const { password, IsAdmin, refreshTokens, updatedAt, ...userWithoutPassword } = user;
+    console.log('user profile', userWithoutPassword);
     res.json(userWithoutPassword);
-    // delete user.password;
-    // res.json(user);
   } catch (err) {
     console.error('Error getting user profile', err);
     next(err);
   }
 });
 
-module.exports = router;
+module.exports = { user: router };
