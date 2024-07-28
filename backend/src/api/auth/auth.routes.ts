@@ -22,6 +22,7 @@ const {
 } = require('../users/user.services');
 
 interface RegisterRequestBody {
+    name: string;
     email: string;
     password: string;
     confirmPassword: string;
@@ -29,6 +30,7 @@ interface RegisterRequestBody {
 
 
 const registerSchemaBase = z.object({
+    name: z.string({ required_error: 'Name is required.', invalid_type_error: 'Name must be a string.',}).min(2, { message: 'Name must be at least 2 characters long.' }),
     email: z.string({ required_error: 'Email is required.',}).email().min(6),
     password: z.string({ required_error: 'Password is required.', invalid_type_error: 'Password must be a string.',}).min(6, { message: 'Password must be at least 6 characters long.' }),
     confirmPassword: z.string({ required_error: 'Confirm password is required.', invalid_type_error: 'Confirm password must be a string.',}),
