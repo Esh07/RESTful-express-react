@@ -5,38 +5,49 @@ const prisma = new PrismaClient()
 export const userData: Prisma.UserCreateInput[] = [
     {
         email: 'esh@exmaple.com',
-        name: 'Esh',
+        name: 'Admin user',
         password: 'password',
         IsAdmin: true,
     },
     {
-        email: 'test1@exmaple.com',
-        name: 'Test1',
+        email: 'esh1@exmaple.com',
+        name: 'Test1 normal user',
         password: 'password',
         IsAdmin: false,
     },
     {
-        email: 'test2@exmaple.com',
-        name: 'Test2',
+        email: 'esh3@exmaple.com',
+        name: 'Test2 normal user',
         password: 'password',
         IsAdmin: false,
     },
-
-
 ]
 
-async function main() {
+async function seedData() {
     console.log(`Start seeding ...`)
     for (const u of userData) {
-        const user = await prisma.user.create({
-            data: u,
-        })
-        console.log(`Created user with id: ${user.id}`)
+        try {
+            const existingUser = await prisma.user.findUnique({
+                where: { email: u.email },
+            });
+            if (!existingUser) {
+                const user = await prisma.user.create({
+                    data: u,
+                })
+                console.log(`Created user with id: ${user.id}`)
+            } else {
+                console.log(`User with email ${u.email} already exists.`)
+            }
+        }
+        catch (e) {
+            console.error(`Failed to create user: ${u.email}`)
+            console.error(e)
+        }
     }
-    console.log(`Seeding finished.`)
+    console.log(`Seeding finished.`);
 }
 
-main()
+seedData()
     .then(async () => {
         await prisma.$disconnect()
     })
@@ -45,3 +56,5 @@ main()
         await prisma.$disconnect()
         process.exit(1)
     })
+
+export default seedData;    
