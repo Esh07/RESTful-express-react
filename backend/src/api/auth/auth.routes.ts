@@ -133,10 +133,44 @@ router.post('/register', validateRequest(registerSchemaBase), asyncHandler(async
 
 }));
 
-router.get('/login', (req: Request, res: Response) => {
-    res.send('Login');
-}
-);
+
+const loginSchema = z.object({
+  email: z.string({ required_error: 'You must provide an email and password.'}).email(),
+  password: z.string({ required_error: 'You must provide an email and password.'}),
+});
+
+/**
+ * Logs in a user.
+ * If the user does not exist or the password is incorrect, it sends a 400 response with an error message.
+ * If the user is successfully logged in, it sends a 200 response with the access and refresh tokens.
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns A 200 response with the access and refresh tokens if the user is successfully logged in.
+ * @throws A 400 response with an error message if the user does not exist or the password is incorrect or the request body is invalid.
+ * @throws A 500 response if an error occurs during the login process.
+ */
+router.post('/login', validateRequest(loginSchema), asyncHandler(async (req: Request, res: Response) => {
+  console.log(req.body);
+  try{
+    const validateData = loginSchema.parse(req.body);
+    console.log(validateData);
+    const { email, password } = validateData;
+
+    const user = await findUserByEmail(email);
+
+    if (!user || !(await comparePasswords(password, user.password))) {
+      return res.status(400).json({ message: 'Invalid email or password.' });
+    }
+
+    const token = generateTokens(user, uuidv4());
+    return res.status(200).json(token);
+
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ errors: error.errors });
+    }
+    return res.status(500).json({ message: 'An error occurred. Please try again later.' });
+  }}));
 
 // Generic error handler Middleware
 router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
