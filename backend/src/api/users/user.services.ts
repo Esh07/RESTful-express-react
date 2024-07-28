@@ -27,7 +27,7 @@ function findUserByEmail(email: string) : Promise<User | null> {
   }
 }
 
-  function createUserByEmailAndPassword(user: { email: string; password: string }) {
+  function createUserByEmailAndPassword(user: { email: string; password: string; name: string }): Promise<User> {
     user.password = bcrypt.hashSync(user.password, 12);
     return db.user.create({
       data: user,
