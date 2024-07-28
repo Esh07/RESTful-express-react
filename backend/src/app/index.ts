@@ -6,14 +6,15 @@ const compression = require('compression')
 import express from 'express'
 const bodyParser = require('body-parser')
 const router = express.Router();
-
+const cookieParser = require("cookie-parser");
 
 
 
 const app = express();
 app.use(bodyParser.json());
 app.use(compression());
-
+app.use(cookieParser());
+app.use(express.json());
 // A route declaration section
 const { auth } = require('../api/auth/auth.routes');
 // console.log(auth)

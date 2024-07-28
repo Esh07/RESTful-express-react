@@ -162,7 +162,16 @@ router.post('/login', validateRequest(loginSchema), asyncHandler(async (req: Req
     }
 
     const token = generateTokens(user, uuidv4());
-    return res.status(200).json(token);
+
+    res.setHeader('Set-Cookie', cookie.serialize('token', token.accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 , // 1 day
+      path: '/',
+    }));
+
+    return res.status(200).json({ message: 'Logged in successfully.' });
 
   } catch (error) {
     if (error instanceof z.ZodError) {

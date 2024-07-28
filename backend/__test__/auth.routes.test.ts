@@ -5,6 +5,8 @@ import request from "supertest";
 import { describe, expect, beforeAll, it, afterEach, beforeEach, afterAll } from "@jest/globals";
 import { app } from "../src/app/index";
 import { execSync } from "child_process";
+import cookie from "cookie";
+
 
 process.env.NODE_ENV = "test";
 process.env.DATABASE_URL = "file:./test.db";
@@ -22,7 +24,9 @@ const loginData = {
     password: "password",
 };
 
+let token: string;
 
+let prisma: InstanceType<typeof PrismaMockClient>;
 
 // initialize the prisma ./test.db database and migrate the schema (sqlite)
 beforeAll(async () => {
@@ -40,6 +44,14 @@ beforeAll(async () => {
     
 })
 
+afterAll(async () => {
+    // drop the database
+    execSync("npx prisma migrate reset --force", { stdio: "inherit" });
+    // disconnect the database
+    if (prisma) {
+        await prisma.$disconnect();
+    }
+} );
 
 // Test "/" GET route
 describe("GET /", () => {
@@ -51,21 +63,10 @@ describe("GET /", () => {
   });
 });
 
-// Test User routes
-describe("User routes", () => {
-  let prisma: InstanceType<typeof PrismaMockClient>;
 
-  beforeEach(async () => {
-    prisma = new PrismaMockClient();
-    
-    // await prisma.user.create({ data: userDataFields });
-  });
+describe("Auth Register User routes", () => {
 
-  afterEach(async () => {
-    await prisma.$disconnect();
-  });
-
-  /*
+   /*
   * Test "/auth/Register" POST route
   * Expected to fail because the route is not defined
   * */
@@ -75,48 +76,48 @@ describe("User routes", () => {
   });  
 
   /* 
-  * Test "/auth/register" POST route
-  * Expected to pass because the route is defined
-  * */
-    it("should successfully POST /auth/register", async () => {
-        const response = await request(app).post("/auth/register").send(userDataFields);
-        expect(response.status).toBe(201);
-        // it only receives access token and refresh token
-        expect(response.body).toEqual({ accessToken: expect.any(String), refreshToken: expect.any(String) });
-    });
+    * Test "/auth/register" POST route
+    * Expected to pass because the route is defined
+    * */
+  it("should successfully POST /auth/register", async () => {
+    const response = await request(app).post("/auth/register").send(userDataFields);
+    expect(response.status).toBe(201);
+    // it only receives access token and refresh token
+    expect(response.body).toEqual({ accessToken: expect.any(String), refreshToken: expect.any(String) });
+  });
 
     /*
-    * Test with same email "/auth/register" POST route
-    * Expected to fail because the same email is already in the database
-    * */
+      * Test with same email "/auth/register" POST route
+      * Expected to fail because the same email is already in the database
+      * */
     it("should fail POST /auth/register with same email", async () => {
-        const response = await request(app).post("/auth/register").send(userDataFields);
-        expect(response.status).toBe(400);
-        expect(response.body).toEqual({ message: "User with this email already exists." });
-    });
+      const response = await request(app).post("/auth/register").send(userDataFields);
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ message: "User with this email already exists." });
+  });
+});
 
-    it("should successfully POST /auth/login", async () => {
-      console.log(loginData);
-        const response = await request(app).post("/auth/login").send(loginData);
-
-        console.log(response.body);
-        expect(response.status).toBe(200);
-    } );
+// Test User routes
+describe("Login User routes", () => {
 
     it("should fail POST /auth/login with wrong password", async () => {
       const email = userDataFields.email;
         const response = await request(app).post("/auth/login").send({ email, password: "wrongpassword" });
         expect(response.status).toBe(400);
+
         expect(response.body).toEqual({ message: "Invalid email or password." });
     }
     );
+
+    it("should successfully POST /auth/login", async () => {
+      console.log(loginData);
+        const response = await request(app).post("/auth/login").send(loginData);
+        console.log(response.headers);
+        // fetch the token from httpOnly cookie using cookie-parser
+        const cookies = cookie.parse(response.headers["set-cookie"][0]);
+        token = cookies.token;
+        console.log(token);
+        expect(response.status).toBe(200).toEqual({ message: "Logged in successfully." });
+    } );
+
 });
-
-
-afterAll(async () => {
-    // drop the database
-    execSync("npx prisma migrate reset --force", { stdio: "inherit" });
-
-
-}
-);
