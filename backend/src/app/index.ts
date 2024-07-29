@@ -8,13 +8,21 @@ const bodyParser = require('body-parser')
 const router = express.Router();
 const cookieParser = require("cookie-parser");
 
-
+const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(compression());
 app.use(cookieParser());
 app.use(express.json());
+
+// Use CORS middleware
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow requests from this origin
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed methods
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  }));
+
 // A route declaration section
 const { auth } = require('../api/auth/auth.routes');
 // console.log(auth)
