@@ -27,6 +27,18 @@ function findRefreshTokenById(id: string) {
   });
 }
 
+function updateRefreshToken(id: string, refreshToken: string){
+  return db.refreshToken.update({
+    where: {
+      id,
+      revoked: false
+    },
+    data: {
+      hashedToken: hashToken(refreshToken)
+    }
+  });
+}
+
 // soft delete tokens after usage.
 function deleteRefreshToken(id: string) {
   return db.refreshToken.update({
@@ -50,9 +62,10 @@ function revokeTokens(userId: string) {
   });
 }
 
-module.exports = {
+export  {
   addRefreshTokenToWhitelist,
   findRefreshTokenById,
   deleteRefreshToken,
+  updateRefreshToken,
   revokeTokens
 };

@@ -26,11 +26,11 @@ app.use(cors({
 // A route declaration section
 const { auth } = require('../api/auth/auth.routes');
 // console.log(auth)
-app.use('/auth', auth);
+app.use('/user', auth);
 
 const { user } = require('../api/users/users.routes');
 // console.log(user)
-app.use('/user', user);
+// app.use('/user', user);
 
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Hello World!' });

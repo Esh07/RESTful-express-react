@@ -26,3 +26,11 @@ export interface AuthContextProps {
   isAuthenticated: boolean;
   setIsAuthenticated: (value: boolean) => void;
 }
+
+export interface userDetailsTypes {
+  id: number;
+  email: string;
+  name: string;
+  createdAt: string;
+  isAdmin?: boolean;
+}

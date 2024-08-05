@@ -4,12 +4,15 @@ interface AuthState {
     user: User | null;
     token: string | null;
     isAuthenticated: boolean;
+    userDetails?: User;
 }
 
 interface User {
     id: number;
     email: string;
     name: string;
+    createdAt?: string;
+    isAdmin?: boolean;
 }
 
 
@@ -34,13 +37,18 @@ const authSlice = createSlice({
         logout: (state: AuthState) => {
             state.user = null;
             state.token = null;
+            state.userDetails = undefined;
             state.isAuthenticated = false;
         },
+        setUserDetails: (state, action: PayloadAction<User>) => {
+            state.userDetails = action.payload;
+          },
+        
     },
     
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, logout, setUserDetails } = authSlice.actions;
 
 export default authSlice.reducer;
 
@@ -50,3 +58,4 @@ export const selectCurrentUser = (state: { auth: AuthState }) => state.auth.user
 export const selectCurrentToken = (state: { auth: AuthState }) => state.auth.token;
 // check if user is authenticated
 export const selectIsAuthenticated = (state: { auth: AuthState }) => state.auth.isAuthenticated;
+export const selectUserDetails = (state: { auth: AuthState }) => state.auth.userDetails;

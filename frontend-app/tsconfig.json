@@ -16,11 +16,6 @@
     "jsx": "react-jsx",
     "types": ["vitest/globals"],
     "baseUrl": "./", // Added for path aliases
-    "paths": {
-      "@app/*": ["src/app/*"],
-      "@features/*": ["src/features/*"],
-      "@api/*": ["src/api/*"]
-    }
   },
   "include": ["src"], // Added to include the src directory
   "references": [{ "path": "./tsconfig.node.json" }]
