@@ -1,13 +1,14 @@
 import React from "react";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectCurrentToken } from "./authSlice";
+import { selectCurrentToken, selectIsAuthenticated } from "./authSlice";
 
 const RequireAuth: React.FC = () => {
-	const token = useSelector(selectCurrentToken);
+
+	const isAuthenticated = useSelector(selectIsAuthenticated);
 	const location = useLocation();
-	
-	const content = token ? <Outlet /> : <Navigate to="/login" state={{ from: location.pathname }} replace />
+
+	const content = isAuthenticated ? <Outlet /> : <Navigate to="/login" state={{ from: location.pathname }} replace />
 
 	return (
 		<div>
