@@ -66,13 +66,12 @@ function isAuthenticated(req: CustomRequest, res: Response, next: NextFunction):
 
     } catch (err) {
         req.isAuthenticated = false;
-        res.status(401).json({ message: '🚫 Un-Authorized 🚫' });
 
         if (err instanceof jwt.TokenExpiredError) {
             res.status(401).json({ message: 'Token has  been expired' });
         }
         else {
-            res.json({ message: '🚫 Un-Authorized 🚫' });
+            res.status(401).json({ message: '🚫 Un-Authorized 🚫' });
         }
 
         return false;
@@ -83,8 +82,7 @@ function isAuthenticated(req: CustomRequest, res: Response, next: NextFunction):
 
 function checkAlreadyAuthenticated(req: CustomRequest, res: Response, next: NextFunction) {
     if (req.isAuthenticated) {
-        res.status(409).json({ message: 'Already authenticated' });
-        return;
+        return res.status(409).json({ message: 'Already authenticated' });
     }
     next();
 }
