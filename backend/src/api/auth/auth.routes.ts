@@ -230,21 +230,18 @@ router.post('/refreshToken', async (req: Request<{}, {}, RefreshTokenRequestBody
     // 401 Unauthorised: Invalid or revoked refresh token
     if (!savedRefreshToken || savedRefreshToken.revoked === true) {
       return res.status(401).json({ message: 'Unauthorized' });
-      throw new Error('Unauthorized');
     }
 
     const hashedToken = hashToken(refreshToken);
     // 401 Unauthorised: Token mismatch
     if (hashedToken !== savedRefreshToken.hashedToken) {
       return res.status(401).json({ message: 'Unauthorized' });
-      throw new Error('Unauthorized');
     }
 
     const user = await findUserById(payload.userId);
     // 401 Unauthorized: User not found
     if (!user) {
       return res.status(401).json({ message: 'Unauthorized' });
-      throw new Error('Unauthorized');
     }
 
     await deleteRefreshToken(savedRefreshToken.id);
@@ -259,6 +256,7 @@ router.post('/refreshToken', async (req: Request<{}, {}, RefreshTokenRequestBody
     });
   } catch (err) {
     next(err);
+    return res.status(500).json({ message: 'An error occurred. Please try again later.' });
   }
 });
 
