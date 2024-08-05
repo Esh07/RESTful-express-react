@@ -456,9 +456,10 @@ router.get('/', isAuthenticated, async (req: Request, res: Response) => {
       if (user) {
         // Check if user is an admin
         if (user.IsAdmin) {
+          const user = await getUserDetails(req.payload.userId);
           // If admin, return the list of all users
           const users = await getAllUsers();
-          return res.status(200).json({ users });
+          return res.status(200).json({ users, user });
         } else {
           // If not admin, return details of the authenticated user
           return res.status(200).json({ user });
