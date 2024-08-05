@@ -5,6 +5,7 @@ interface AuthState {
     token: string | null;
     isAuthenticated: boolean;
     userDetails?: User;
+    users?: User[];
 }
 
 interface User {
@@ -12,14 +13,16 @@ interface User {
     email: string;
     name: string;
     createdAt?: string;
-    isAdmin?: boolean;
+    users?: User[];
 }
 
 
 const initialState: AuthState = {
     user: null,
     token: null,
-    isAuthenticated: false
+    isAuthenticated: false,
+    userDetails: undefined,
+    users: [],
 };
 
 
@@ -32,7 +35,6 @@ const authSlice = createSlice({
             state.user = user;
             state.token = accessToken;
             state.isAuthenticated = true;
-
         },
         logout: (state: AuthState) => {
             state.user = null;
@@ -43,12 +45,15 @@ const authSlice = createSlice({
         setUserDetails: (state, action: PayloadAction<User>) => {
             state.userDetails = action.payload;
           },
-        
+        setUsers: (state, action: PayloadAction<User[]>) => {
+        state.users = action.payload;
+        }
+    
     },
     
 });
 
-export const { setCredentials, logout, setUserDetails } = authSlice.actions;
+export const { setCredentials, logout, setUserDetails, setUsers } = authSlice.actions;
 
 export default authSlice.reducer;
 
@@ -59,3 +64,6 @@ export const selectCurrentToken = (state: { auth: AuthState }) => state.auth.tok
 // check if user is authenticated
 export const selectIsAuthenticated = (state: { auth: AuthState }) => state.auth.isAuthenticated;
 export const selectUserDetails = (state: { auth: AuthState }) => state.auth.userDetails;
+
+// get all users if user is admin
+export const selectUsers = (state: { auth: AuthState }) => state.auth.users;
