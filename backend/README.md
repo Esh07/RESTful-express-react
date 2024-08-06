@@ -47,7 +47,7 @@ npm install
 
 In this project, SQLite is used as the database. It is a file-based database, so you don't need to set up a separate database server. Prisma ORM is used to manage the database schema and migrations.
 
-#### Migrate Prisma ORM
+#### Migrate Prisma ORM
 
 1. Run the following command to create the initial migration and generate the SQLite database file:
 
