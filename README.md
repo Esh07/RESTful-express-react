@@ -2,6 +2,23 @@
 
 This web application consists of a RESTful API and a React app. The API is a simple CRUD API for a list of users, built using Express.js. The front-end is built using React.js, incorporating Redux Toolkit (RTK) and other tools.
 
+## Table of Contents
+
+- [Features](#features)
+  - [RESTful API](#restful-api)
+    - [User Authentication](#user-authentication)
+    - [User Management](#user-management)
+    - [JWT-based authentication](#jwt-based-authentication)
+  - [React App](#react-app)
+    - [User Interface](#user-interface)
+    - [State Management](#state-management)
+    - [Responsive Design](#responsive-design)
+- [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Clone the repository](#clone-the-repository)
+  - [Setting up the API (backend)](#setting-up-the-api-backend)
+  - [Setting up the React app (frontend)](#setting-up-the-react-app-frontend)
+
 ### Features
 
 - **RESTful API**:
@@ -36,7 +53,7 @@ This web application consists of a RESTful API and a React app. The API is a sim
 
 The installation process is divided into two parts: setting up the API (backend - express app) and setting up the React app.
 
-#### Prerequisites
+#### Prerequisites
 
 - Node.js (v20.10.0 or higher)
 - npm
