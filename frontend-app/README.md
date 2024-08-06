@@ -13,13 +13,13 @@ This document provides instructions on how to set up frontend-app, the React app
 ## Go to 'frontend-app' directory
 
 ```bash
-    cd frontend-app
+cd frontend-app
 ```
 
 ## Install dependencies
 
 ```bash
-    npm install
+npm install
 ```
 
 > It may take a few minutes to install all the dependencies.
@@ -27,7 +27,22 @@ This document provides instructions on how to set up frontend-app, the React app
 ## Start the development server
 
 ```bash
-    npm run dev
+npm run dev
+```
+
+it should output something like this:
+
+```bash
+> vite-template-redux@0.0.0 dev
+> vite
+
+✔ Console Ninja extension is connected to Vite, see https://tinyurl.com/2vt8jxzw
+
+  VITE v5.3.5  ready in 2581 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
 ```
 
 This command will start the development server at [http://localhost:5173](http://localhost:5173).
