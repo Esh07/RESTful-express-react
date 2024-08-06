@@ -1,6 +1,6 @@
 # Welcome to RESTful-express-react
 
-This web application consists of a RESTful API and a React app. The API is a simple CRUD API for a list of users, built using Express.js. The front-end is built using React.js, incorporating Redux Toolkit (RTK) and other tools.
+This web application consists of a RESTful API (Express) and a React app.  The front-end is built using React.js, incorporating Redux Toolkit (RTK) and other tools.
 
 ## Table of Contents
 
