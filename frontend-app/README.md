@@ -1,27 +1,35 @@
-# vite-template-redux
+# Installation
 
-Uses [Vite](https://vitejs.dev/), [Vitest](https://vitest.dev/), and [React Testing Library](https://github.com/testing-library/react-testing-library) to create a modern [React](https://react.dev/) app compatible with [Create React App](https://create-react-app.dev/)
+This document provides instructions on how to set up frontend-app, the React app of the project.
 
-```sh
-npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
+## Prerequisites
+
+- Node.js (v20.10.0 or higher)
+- npm
+- clone the repository
+
+> if you haven't cloned the repository yet, follow the instructions from the main [README.md](../README.md).
+
+## Go to 'frontend-app' directory
+
+```bash
+    cd frontend-app
 ```
 
-## Goals
+## Install dependencies
 
-- Easy migration from Create React App or Vite
-- As beginner friendly as Create React App
-- Optimized performance compared to Create React App
-- Customizable without ejecting
+```bash
+    npm install
+```
 
-## Scripts
+> It may take a few minutes to install all the dependencies.
 
-- `dev`/`start` - start dev server and open browser
-- `build` - build for production
-- `preview` - locally preview production build
-- `test` - launch test runner
+## Start the development server
 
-## Inspiration
+```bash
+    npm run dev
+```
 
-- [Create React App](https://github.com/facebook/create-react-app/tree/main/packages/cra-template)
-- [Vite](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react)
-- [Vitest](https://github.com/vitest-dev/vitest/tree/main/examples/react-testing-lib)
+This command will start the development server at [http://localhost:5173](http://localhost:5173).
+
+> ️:exclamation: If you happen to change the port, please update the `origin` in the [backend/src/app/index.ts](../backend/src/app/index.ts) file. Refer to code line 21. Otherwise, you may encounter CORS issues.
