@@ -5,14 +5,6 @@ This web application consists of a RESTful API and a React app. The API is a sim
 ## Table of Contents
 
 - [Features](#features)
-  - [RESTful API](#restful-api)
-    - [User Authentication](#user-authentication)
-    - [User Management](#user-management)
-    - [JWT-based authentication](#jwt-based-authentication)
-  - [React App](#react-app)
-    - [User Interface](#user-interface)
-    - [State Management](#state-management)
-    - [Responsive Design](#responsive-design)
 - [Installation](#installation)
   - [Prerequisites](#prerequisites)
   - [Clone the repository](#clone-the-repository)
