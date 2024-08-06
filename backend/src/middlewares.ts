@@ -42,7 +42,7 @@ function isAuthenticated(req: CustomRequest, res: Response, next: NextFunction):
         // res.status(401).json({ message: '🚫 Un-Authorized 🚫' });
         return false;
     }
-    console.log(token, 'token');
+    // console.log(token, 'token');
 
 
     // if (!token) {

@@ -81,7 +81,7 @@ const validateRequest = (schema: z.ZodObject<any>) => (req: Request, res: Respon
   try {
     const parsedData = schema.parse(req.body);
 
-    console.log(parsedData, "parsedData in validateRequest");
+    // console.log(parsedData, "parsedData in validateRequest");
 
     if (parsedData.confirmPassword) {
       // apply the validation on password and confirmPassword
@@ -174,7 +174,7 @@ const loginSchema = z.object({
 router.post('/login', validateRequest(loginSchema), asyncHandler(async (req: Request, res: Response) => {
   const cookies = req.cookies;
   try {
-    console.log(req.body, "req.body in login");
+    // console.log(req.body, "req.body in login");
     const validateData = loginSchema.parse(req.body);
     // console.log(validateData);
     const { email, password } = validateData;
@@ -187,15 +187,15 @@ router.post('/login', validateRequest(loginSchema), asyncHandler(async (req: Req
     }
 
     const token = generateTokens(user, uuidv4());
-    console.log(token, "token in login");
+    // console.log(token, "token in login");
 
     // Ensure user.refreshTokens is not used
     let newRefreshTokenArray = !cookies?.jwt
       ? user.refreshTokens ?? []
       : (user.refreshTokens ?? []).filter(rt => rt !== cookies.jwt);
 
-    console.log(newRefreshTokenArray, "newRefreshTokenArray");
-    console.log(cookies.jwt, "cookies.jwt");
+    // console.log(newRefreshTokenArray, "newRefreshTokenArray");
+    // console.log(cookies.jwt, "cookies.jwt");
 
     if (cookies?.jwt) {
       console.log("cookies.jwt", cookies.jwt);
@@ -288,11 +288,11 @@ interface RefreshTokenRequestBody {
 * */
 
 router.post('/logout', isAuthenticated, async (req: Request, res: Response) => {
-  console.log("i am in logout");
+  // console.log("i am in logout");
 
   const refreshToken = req.cookies.refresh;
-  console.log(req.payload, "req.payload in logout");
-  console.log(req.body, "req.body in logout");
+  // console.log(req.payload, "req.payload in logout");
+  // console.log(req.body, "req.body in logout");
 
   let token = '';
 
@@ -311,7 +311,7 @@ router.post('/logout', isAuthenticated, async (req: Request, res: Response) => {
   //   return res.status(401).json({ message: 'Unauthorized' });
   // }
 
-  console.log(refreshToken, "refreshToken in logout");
+  // console.log(refreshToken, "refreshToken in logout");
 
   if (req.payload && req.payload.userId) {
     const userId = req.payload.userId;
@@ -349,10 +349,10 @@ router.post('/refreshToken', async (req: Request, res: Response, next: NextFunct
 
     // Check for presence of refresh token
     if (!refreshToken) {
-      console.log('Refresh token not found in cookies');
+      // console.log('Refresh token not found in cookies');
       return res.status(400).json({ message: 'Refresh token is required.' });
     }
-    console.log("Refresh token found in cookies");
+    // console.log("Refresh token found in cookies");
     // Verify JWT secret
     const secret = process.env.JWT_REFRESH_SECRET;
     if (!secret) {
@@ -360,7 +360,7 @@ router.post('/refreshToken', async (req: Request, res: Response, next: NextFunct
       return res.status(500).json({ message: 'Internal server error.' });
     }
 
-    console.log("JWT_REFRESH_SECRET found in environment variables");
+    // console.log("JWT_REFRESH_SECRET found in environment variables");
 
     // Verify the refresh token
     const payload = jwt.verify(refreshToken, secret) as { jti: string; userId: string };
@@ -371,34 +371,34 @@ router.post('/refreshToken', async (req: Request, res: Response, next: NextFunct
 
     // Check if the refresh token is valid and not revoked
     if (!savedRefreshToken || savedRefreshToken.revoked === true) {
-      console.log('Refresh token not found or revoked');
-      console.log(savedRefreshToken, "savedRefreshToken");
-      console.log(!savedRefreshToken, "!savedRefreshToken");
-      console.log(savedRefreshToken?.revoked, "savedRefreshToken.revoked");
-      console.log("Send 401 response with message: Unauthorized");
+      // console.log('Refresh token not found or revoked');
+      // console.log(savedRefreshToken, "savedRefreshToken");
+      // console.log(!savedRefreshToken, "!savedRefreshToken");
+      // console.log(savedRefreshToken?.revoked, "savedRefreshToken.revoked");
+      // console.log("Send 401 response with message: Unauthorized");
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    console.log("Refresh token is valid and not revoked");
+    // console.log("Refresh token is valid and not revoked");
 
     // Check token hash
     const hashedToken = hashToken(refreshToken);
     if (hashedToken !== savedRefreshToken.hashedToken) {
-      console.log('Hashed token does not match');
+      // console.log('Hashed token does not match');
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    console.log("Hashed token matches");
+    // console.log("Hashed token matches");
 
     // Find the user
     const user = await findUserById(payload.userId);
     if (!user) {
 
-      console.log('User not found');
+      // console.log('User not found');
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    console.log("User found");
+    // console.log("User found");
 
     // Delete old refresh token and generate new ones
     await deleteRefreshToken(savedRefreshToken.id);
@@ -406,7 +406,7 @@ router.post('/refreshToken', async (req: Request, res: Response, next: NextFunct
     const { accessToken, refreshToken: newRefreshToken } = generateTokens(user, jti);
     await addRefreshTokenToWhitelist({ jti, refreshToken: newRefreshToken, userId: user.id });
 
-    console.log("Old refresh token deleted and new ones generated");
+    // console.log("Old refresh token deleted and new ones generated");
 
     // Set new tokens in cookies
     res.cookie('token', accessToken, {
@@ -423,7 +423,7 @@ router.post('/refreshToken', async (req: Request, res: Response, next: NextFunct
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24 hours
     });
 
-    console.log("New tokens set in cookies");
+    // console.log("New tokens set in cookies");
 
     // Return the new tokens
     return res.json({
@@ -431,7 +431,7 @@ router.post('/refreshToken', async (req: Request, res: Response, next: NextFunct
       refreshToken: newRefreshToken
     });
 
-    console.log("New tokens returned");
+    // console.log("New tokens returned");
   } catch (err) {
     // Handle error and avoid sending multiple responses
     if (res.headersSent) {
@@ -440,7 +440,7 @@ router.post('/refreshToken', async (req: Request, res: Response, next: NextFunct
       return next(err);
     }
 
-    // Log error (avoid logging sensitive data)
+    // Log error (a)
     console.error('An error occurred in /refreshToken', err);
 
     // Send generic error response
