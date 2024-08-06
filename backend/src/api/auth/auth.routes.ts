@@ -235,7 +235,9 @@ router.post('/login', validateRequest(loginSchema), asyncHandler(async (req: Req
       //   expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24 hours
       // });
 
-      res.setHeader('Set-Cookie', [`token=${token.accessToken}; HttpOnly; Secure; SameSite=Strict; Expires=${new Date(Date.now() + 1000 * 30).toUTCString()}`, `refresh=${token.refreshToken}; HttpOnly; Secure; SameSite=Strict; Expires=${new Date(Date.now() + 1000 * 60 * 60 * 24).toUTCString()}`]);
+      res.setHeader('Set-Cookie', [
+        `token=${token.accessToken}; HttpOnly; Secure; SameSite=Strict; Expires=${new Date(Date.now() + 1000 * 60 * 60 * 3).toUTCString()}`,  // 3 hours for access token
+        `refresh=${token.refreshToken}; HttpOnly; Secure; SameSite=Strict; Expires=${new Date(Date.now() + 1000 * 60 * 60 * 24).toUTCString()}`]); // 24 hours for refresh token
 
       return res.status(200).json({
         message: 'Logged in successfully.',
@@ -250,7 +252,7 @@ router.post('/login', validateRequest(loginSchema), asyncHandler(async (req: Req
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      expires: new Date(Date.now() + 1000 * 30), // 30 seconds
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 3), // 3 hours
     });
 
     // set the refresh and access tokens in the response cookies
@@ -413,7 +415,7 @@ router.post('/refreshToken', async (req: Request, res: Response, next: NextFunct
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      expires: new Date(Date.now() + 1000 * 30), // 30 seconds
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 3), // 3 hours
     });
 
     res.cookie('refresh', newRefreshToken, {
