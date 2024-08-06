@@ -7,6 +7,7 @@ import RequireAuth from './features/auth/RequireAuth';
 import Dashboard from './features/auth/Dashboard';
 import Register from './pages/Register';
 import RedirectIfAuthenticated from './features/auth/RedirectIfAuthenticated';
+import NotFound from './pages/NotFound';
 
 const App: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const App: React.FC = () => {
           <Route path="/home" element={<Dashboard />} />
         </Route>
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
