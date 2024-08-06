@@ -36,7 +36,7 @@ This web application consists of a RESTful API and a React app. The API is a sim
 
 The installation process is divided into two parts: setting up the API (backend - express app) and setting up the React app.
 
-#### Prerequisites
+#### Prerequisites
 
 - Node.js (v20.10.0 or higher)
 - npm
