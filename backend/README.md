@@ -14,6 +14,8 @@ This is a simple RESTful API built using Express.
     - [Seed the Database (Optional)](#seed-the-database-optional)
     - [See the Database with Prisma Studio (Optional)](#see-the-database-with-prisma-studio-optional)
   - [Start the Server](#start-the-server)
+  - [API Endpoints](#api-endpoints)
+  - [Unit tests](#unit-tests)
 
 ## Installation
 
