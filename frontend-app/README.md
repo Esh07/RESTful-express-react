@@ -32,4 +32,4 @@ This document provides instructions on how to set up frontend-app, the React app
 
 This command will start the development server at [http://localhost:5173](http://localhost:5173).
 
-> ️:exclamation: If you happen to change the port, please update the `origin` in the [backend/src/app/index.ts](../backend/src/app/index.ts) file. Refer to code line 21. Otherwise, you may encounter CORS issues.
+> ️❗ : If you happen to change the port, please update the `origin` in the [backend/src/app/index.ts](../backend/src/app/index.ts) file. Refer to code line 21. Otherwise, you may encounter CORS issues.
